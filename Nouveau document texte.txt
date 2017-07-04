@@ -1,0 +1,84 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+
+var userid = _spPageContextInfo.userId;
+var itemList="something";
+var groupList="somegroup";
+
+
+function GetCurrentUserGroup() {
+var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/CurrentUser/Groups";
+
+var requestHeaders = { "accept" : "application/json;odata=verbose" };
+$.ajax({
+  url : requestUri,
+  contentType : "application/json;odata=verbose",
+  method:"GET",
+  async:false,
+  headers : requestHeaders,
+  success : onSuccessGroup,
+  error : onErrorGroup
+});
+}
+
+function onSuccessGroup(data,request){
+  groupList=data.d.results;
+}
+
+function onErrorGroup(error)
+{alert("wrong group");}
+
+function GetItemTitleListByGuid() {
+var requestUri = _spPageContextInfo.webAbsoluteUrl + "/_api/web/lists(guid'8ACE9A6E-C245-4AD7-B6DA-AE36D4D77B61')/items";
+
+var requestHeaders = { "accept" : "application/json;odata=verbose" };
+$.ajax({
+  url : requestUri,
+  contentType : "application/json;odata=verbose",
+  method:"GET",
+  async:false,
+  headers : requestHeaders,
+  success : onSuccessItem,
+  error : onErrorItem
+});
+
+}
+
+function onSuccessItem(data, request)
+{
+itemList= data.d.results;
+
+}
+
+
+function onErrorItem(error) {
+  alert("wrong dude!!!");
+}
+
+function exist(items,groups)
+{
+
+  var test= false;
+  for(var i=0;i>groups.lenth;i++)
+  {console.log(i);
+    for(var j=0;j>items.length;j++)
+    {
+      if (groups.Title==items.Groupe)
+      {
+        exist=true;
+        log.console("2"+test);
+        break;
+      }
+    }
+  }
+}
+
+
+GetItemTitleListByGuid();
+GetCurrentUserGroup();
+
+exist(itemList,groupList);
+
+});
+</script>
